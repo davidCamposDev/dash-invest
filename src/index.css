@@ -1,5 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap");
+/* ⚡ esse @import abaixo nem precisa, o Tailwind já está instalado pelo postcss.config.js
+   mas se quiser usar, deixe também no topo */
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 html,
 body,
@@ -14,20 +21,4 @@ body,
 .app {
   display: flex;
   position: relative;
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #e0e0e0;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
 }

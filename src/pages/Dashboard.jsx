@@ -51,7 +51,7 @@ export default function Dashboard() {
             📊 Mini Dashboard de Investimento
           </h2>
           <button
-            onClick={() => setDarkMode(!darkMode)}
+            onClick={() => setDarkMode((prev) => !prev)}
             className="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded transition"
           >
             {darkMode ? "☀️ Claro" : "🌙 Escuro"}
@@ -69,7 +69,7 @@ export default function Dashboard() {
           />
           <button
             onClick={fetchData}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+            className="px-4 py-2 bg-gray-700 dark: bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
           >
             Buscar
           </button>
@@ -77,7 +77,7 @@ export default function Dashboard() {
 
         {error && <p className="text-red-500 mb-4">{error}</p>}
 
-        <Chart data={data} />
+        <Chart data={data} darkMode={darkMode} />
       </div>
     </div>
   );
