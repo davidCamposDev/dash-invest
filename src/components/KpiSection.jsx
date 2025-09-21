@@ -1,34 +1,63 @@
-import React from "react";
+import React, { useEffect } from "react";
 import KPICard from "./KpiCard";
 import useQuote from "../hooks/useQuote";
 
 export default function KPISection({ symbol }) {
-  const { quote, loading, error } = useQuote(symbol);
+  const { quote, loading, fetchQuote } = useQuote();
 
-  if (loading)
-    return (
-      <p className="text-gray-500 dark:text-gray-400">Carregando KPIs...</p>
-    );
-  if (error) return <p className="text-red-500">{error}</p>;
-  if (!quote) return null;
+  useEffect(() => {
+    const symbolToUse = symbol?.trim() || "PETR4";
+    fetchQuote(symbolToUse);
+  }, [symbol, fetchQuote]);
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-      <KPICard title="Preço Atual" value={`R$ ${quote.regularMarketPrice}`} />
-      <KPICard
-        title="Variação"
-        value={`${quote.regularMarketChangePercent.toFixed(2)}%`}
-        color={
-          quote.regularMarketChangePercent >= 0
-            ? "text-green-500"
-            : "text-red-500"
-        }
-      />
-      <KPICard title="Dividend Yield" value={`${quote.dividendYield || 0}%`} />
-      <KPICard
-        title="Market Cap"
-        value={`R$ ${quote.marketCap?.toLocaleString("pt-BR")}`}
-      />
+    <div className="flex justify-center mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl w-full">
+        <KPICard
+          title="Preço Atual"
+          value={
+            loading
+              ? "Carregando..."
+              : quote?.regularMarketPrice
+              ? `R$ ${quote.regularMarketPrice.toFixed(2)}`
+              : "--"
+          }
+          loading={loading}
+          placeholder={!quote && !loading}
+        />
+
+        <KPICard
+          title="Variação"
+          value={
+            loading
+              ? "Carregando..."
+              : quote?.regularMarketChangePercent !== null &&
+                quote?.regularMarketChangePercent !== undefined
+              ? `${quote.regularMarketChangePercent.toFixed(2)}%`
+              : "--"
+          }
+          color={
+            quote?.regularMarketChangePercent >= 0
+              ? "text-green-500"
+              : "text-red-500"
+          }
+          loading={loading}
+          placeholder={!quote && !loading}
+        />
+
+        <KPICard
+          title="Market Cap"
+          value={
+            loading
+              ? "Carregando..."
+              : quote?.marketCap
+              ? `R$ ${quote.marketCap.toLocaleString("pt-BR")}`
+              : "--"
+          }
+          loading={loading}
+          placeholder={!quote && !loading}
+        />
+      </div>
     </div>
   );
 }

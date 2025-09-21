@@ -8,7 +8,6 @@ export default function useDarkMode() {
     ).matches;
     const initial = saved !== null ? JSON.parse(saved) : prefersDark;
 
-    // Aplica imediatamente antes do primeiro render
     if (initial) {
       document.documentElement.classList.add("dark");
     } else {
